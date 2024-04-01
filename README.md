@@ -80,3 +80,88 @@ InletAndOutlet：Top Right
 因为水龙头和下水道无法拖拽，所有在编辑关卡时，需要手动将水龙头和下水道的Slot和Hexagon的属性设定的一模一样
 
 这里介绍的全是文字比较抽象，只需要上手编辑一下关卡则能很快理解
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+A, imitation of the water pipe game (2D) basic framework
+
+PS: The basic framework of this imitation water pipe game only focuses on and completes the playing rules and functions of the game in the program above, without any music and art resources, not a complete game! There is only one demo scenario, demo scenario
+The simple art resources are also drawn by my pure mouse, only to demonstrate the function, clearance conditions and restrictions
+
+Gameplay rules:
+
+There are countless hexagonal blocks in the scene, and each side of the hexagonal block corresponds to a water pipe interface (developers can expand if they want to use other sides instead of hexagons).
+
+There are four different kinds of hexagonal squares in the scene: faucets (starting point), ordinary water pipes (path), empty hexagonal blocks, and sewers (end point).
+
+The object of the game is that the player has to choose to move and drag the ordinary water pipe or the empty hexagon block in the scene until the faucet and sewer are connected through the correct water pipe path to complete the level
+
+In the game, faucets and sewers are fixed at the beginning of the game, cannot be dragged, and they have one and only one water outlet
+
+The ordinary water pipe is the main moving block in the game, with one water outlet and one water inlet
+
+The empty hexagon block can be moved and dragged, without any access to water, only to confuse the effect
+
+2. Edit new game levels
+
+My level is limited, this small game framework is very simple and rough, just to record their work experience, not a professional program framework developer, if someone really needs to use this project for development and creation, first of all very grateful, in addition, please do not
+Personal attack
+
+First of all, under the Canvas system based on UGUI, developers only need to drag and drop the "Slot" prefab on the canvas and place it in the position they want
+
+The Slot prefab is divided into two parts: the Slot itself and its child Hexagon, which each have a corresponding script of their own
+
+In the corresponding Slot and Hexagon scripts, the corresponding properties are exposed in the Inspector panel, and the developer only needs to set the required field properties in the Inspector panel
+
+Slot:
+
+SlotWaterPipeOfType: Water Tap
+Commen Water Pipe
+Empty Block
+Sewer
+Select the type of the current hexagon block (faucet, regular water pipe, empty hexagon block, sewer)
+
+InletAndOutlet: Top Right
+Top Left
+Bottom Right
+Bottom Left
+Center Right
+Center Left
+Set which side of the hexagon the water inlet and outlet is on (faucets and sewers only set one side, ordinary water pipes need to set two sides, empty hexagon blocks do not need to set)
+
+IsRoadStrengthBlock: true || false
+Set whether the current box needs to place the correct water pipe connection path, the faucet and sewer must be checked, because they must be the water pipe path through the game
+
+Hexagon:
+
+HexagonWaterPipeOfType: Water Tap
+Commen Water Pipe
+Empty Block
+Sewer
+Select the type of the current hexagon block (faucet, regular water pipe, empty hexagon block, sewer)
+
+InletAndOutlet: Top Right
+Top Left
+Bottom Right
+Bottom Left
+Center Right
+Center Left
+Set which side of the hexagon the water inlet and outlet is on (faucets and sewers only set one side, ordinary water pipes need to set two sides, empty hexagon blocks do not need to set)
+
+When editing a game level, you need to first set the Slot, and the properties on the Slot represent what properties the block "should" be, meaning, in order to achieve the game level, what properties should the Slot be
+For example, if you want a hexagon block in the scene to have a common water pipe with top left and bottom right water inlet and exit to achieve the victory condition, then the SlotWaterPipeOfType of this hexagon block should be set
+For Commen Water Pipe, InletAndOutlet is set to Top Left and Bottom Right and IsRoadStrengthBlock is set to true
+
+After setting the Slot, then set Hexagon, and the properties on Hexagon represent the properties of this square "now"
+For example, if you want the second Hexagon block in the second row of the scene to hold a common water pipe with water inlet and outlet in the left and right middle, then set the Hexagon HexagonWaterPipeOfType of the second hexagon block in the second row
+Is a Commen Water Pipe, and InletAndOutlet is Center Left and Center Right
+
+When editing a level, you only need to edit the Slot on the correct path, that is, the Slot on the path from the faucet to the sewer
+When editing Hexagon, there must be at least one Hexagon attribute that can correspond to Slot attributes in the scene, otherwise, the level cannot be cleared, and Hexagon is randomly set in the scene
+
+The principle of clearing the level is that the player drags Hexagon under the Slot, and the Slot is always unchanged. When the Hexagon is dragged, when an exchange is detected, the dragged Hexagon will move to the dragged Slot to complete an exchange
+When the system detects that the Slot properties are identical to their Hexagon properties, it means that the pipe connection is successful!
+
+Because faucets and sewers cannot be dragged and dropped, it is necessary to manually set the Slot of faucet and sewers to the same properties as Hexagon when editing levels
+
+All the text introduced here is more abstract, only need to start editing the level can be quickly understood
